@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Diagnostic cancer du sein — DiagnostiKNN{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>🎗️ Diagnostic du cancer du sein</h1>
+    <p>Saisissez les 30 mesures issues de l'analyse de l'image numérisée de la masse mammaire.</p>
+</section>
+
+{% if resultat %}
+    {% if resultat.erreur %}
+        <div class="result-box result-error">
+            <p>{{ resultat.erreur }}</p>
+        </div>
+    {% else %}
+        <div class="result-box {{ 'result-positive' if resultat.est_positif else 'result-negative' }}">
+            <h2>Résultat : {{ resultat.diagnostic }}</h2>
+            <p>Confiance du modèle : <strong>{{ resultat.confiance }} %</strong></p>
+            <div class="proba-bar">
+                <div class="proba-segment proba-benin" style="width: {{ resultat.proba_B }}%;" title="Benign : {{ resultat.proba_B }}%"></div>
+                <div class="proba-segment proba-malin" style="width: {{ resultat.proba_M }}%;" title="Malignant : {{ resultat.proba_M }}%"></div>
+            </div>
+            <div class="proba-legend">
+                <span><span class="dot proba-benin"></span> Benign : {{ resultat.proba_B }} %</span>
+                <span><span class="dot proba-malin"></span> Malignant : {{ resultat.proba_M }} %</span>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+<form method="POST" class="prediction-form">
+    {% for titre, champs in groupes %}
+        <fieldset>
+            <legend>{{ titre }}</legend>
+            <div class="form-grid">
+                {% for champ in champs %}
+                    <div class="form-field">
+                        <label for="{{ champ }}">{{ libelles[champ] }}</label>
+                        <input type="number" step="any" id="{{ champ }}" name="{{ champ }}"
+                               value="{{ valeurs[champ] }}" required>
+                    </div>
+                {% endfor %}
+            </div>
+        </fieldset>
+    {% endfor %}
+
+    <button type="submit" class="btn-submit">Obtenir le diagnostic</button>
+</form>
+{% endblock %}

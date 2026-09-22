@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Accueil — DiagnostiKNN{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Diagnostic médical assisté par Machine Learning</h1>
+    <p>
+        Cette application déploie deux modèles de classification entraînés avec la méthode des
+        <strong>K plus proches voisins (KNN)</strong> et la bibliothèque <strong>scikit-learn</strong>.
+        Choisissez un outil de diagnostic ci-dessous.
+    </p>
+</section>
+
+<section class="cards-grid">
+    <a href="{{ url_for('cancer_du_sein') }}" class="tool-card">
+        <div class="tool-icon">🎗️</div>
+        <h2>Cancer du sein</h2>
+        <p>Prédiction du caractère Benign ou Malignant d'une tumeur à partir de 30 mesures issues d'une image numérisée.
+        </p>
+        <span class="tool-badge">Breast Cancer Wisconsin Dataset</span>
+    </a>
+
+    <a href="{{ url_for('diabete') }}" class="tool-card">
+        <div class="tool-icon">🩸</div>
+        <h2>Diabète</h2>
+        <p>Prédiction du risque de diabète à partir de 8 mesures médicales (glycémie, IMC, âge, etc.).</p>
+        <span class="tool-badge">Pima Indians Diabetes Dataset</span>
+    </a>
+</section>
+
+<section class="info-box">
+    <h3>Comment ça marche ?</h3>
+    <ol>
+        <li>Renseignez les mesures demandées dans le formulaire (des valeurs par défaut sont pré-remplies à titre
+            d'exemple).</li>
+        <li>Les données sont mises à l'échelle avec le même <em>scaler</em> que celui utilisé lors de l'entraînement.
+        </li>
+        <li>Le modèle KNN calcule la classe la plus probable parmi les exemples les plus proches.</li>
+        <li>Le résultat, ainsi que le niveau de confiance du modèle, s'affiche instantanément.</li>
+    </ol>
+</section>
+{% endblock %}

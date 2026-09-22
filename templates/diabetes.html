@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Diagnostic diabète — DiagnostiKNN{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>🩸 Diagnostic du diabète</h1>
+    <p>Saisissez les mesures médicales du patient pour estimer le risque de diabète.</p>
+</section>
+
+{% if resultat %}
+    {% if resultat.erreur %}
+        <div class="result-box result-error">
+            <p>{{ resultat.erreur }}</p>
+        </div>
+    {% else %}
+        <div class="result-box {{ 'result-positive' if resultat.est_positif else 'result-negative' }}">
+            <h2>Résultat : {{ resultat.diagnostic }}</h2>
+            <p>Confiance du modèle : <strong>{{ resultat.confiance }} %</strong></p>
+            <div class="proba-bar">
+                <div class="proba-segment proba-benin" style="width: {{ resultat.proba_0 }}%;" title="Pas de diabète : {{ resultat.proba_0 }}%"></div>
+                <div class="proba-segment proba-malin" style="width: {{ resultat.proba_1 }}%;" title="Diabète : {{ resultat.proba_1 }}%"></div>
+            </div>
+            <div class="proba-legend">
+                <span><span class="dot proba-benin"></span> Pas de diabète : {{ resultat.proba_0 }} %</span>
+                <span><span class="dot proba-malin"></span> Diabète : {{ resultat.proba_1 }} %</span>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+<form method="POST" class="prediction-form">
+    <fieldset>
+        <legend>Mesures du patient</legend>
+        <div class="form-grid">
+            {% for champ in features %}
+                <div class="form-field">
+                    <label for="{{ champ }}">{{ libelles[champ] }}</label>
+                    <input type="number" step="any" id="{{ champ }}" name="{{ champ }}"
+                           value="{{ valeurs[champ] }}" required>
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+
+    <button type="submit" class="btn-submit">Obtenir le diagnostic</button>
+</form>
+{% endblock %}

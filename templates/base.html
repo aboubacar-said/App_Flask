@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Diagnostic Médical KNN{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="{{ url_for('accueil') }}" class="logo">
+                <span class="logo-icon">⚕</span> DiagnostiKNN
+            </a>
+            <nav>
+                <a href="{{ url_for('accueil') }}">Accueil</a>
+                <a href="{{ url_for('cancer_du_sein') }}">Cancer du sein</a>
+                <a href="{{ url_for('diabete') }}">Diabète</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>Projet — Modèles de classification KNN (scikit-learn) déployés avec Flask.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
